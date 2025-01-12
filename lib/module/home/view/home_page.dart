@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:front_end_task_practical/module/home/cubit/icon_cubit/icon_selection_cubit.dart';
+import 'package:front_end_task_practical/module/home/cubit/icon_cubit/mcq_selection_cubit.dart';
 import 'package:front_end_task_practical/utils/app_assets.dart';
 import 'package:front_end_task_practical/utils/app_colors.dart';
+import 'package:front_end_task_practical/utils/app_constants.dart';
 import 'package:front_end_task_practical/utils/app_strings.dart';
 import 'package:front_end_task_practical/utils/app_styles.dart';
 import 'package:front_end_task_practical/widgets/header_widget.dart';
@@ -14,112 +16,207 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Stack(
-                children: [
-                  Image.asset(
-                    AppAssets.backgrounImage,
-                    height: 470.h,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                  Positioned(
-                      top: 58.h,
-                      left: 5.w,
-                      right: 5.w,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          HeaderWidget(),
-                        ],
-                      ))
-                ],
-              ),
-            ],
-          ),
-          ShaderScreen(),
-          Positioned(
-            top: 400.h,
-            left: 27,
-            right: 27,
-            child: Column(
+    return SafeArea(
+      bottom: true,
+      top: false,
+      child: Scaffold(
+        backgroundColor: AppColors.blackColor1,
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                CircleAvatar(
-                  radius: 30.r,
-                  backgroundColor: AppColors.blackColor2,
-                  child: CircleAvatar(
-                    radius: 25,
-                    child: Image.asset(AppAssets.profile),
-                  ),
-                )
+                Stack(
+                  children: [
+                    Image.asset(
+                      AppAssets.backgrounImage,
+                      height: 470.h,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+                    Positioned(
+                        top: 58.h,
+                        left: 5.w,
+                        right: 5.w,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            HeaderWidget(),
+                          ],
+                        ))
+                  ],
+                ),
               ],
             ),
-          ),
-          Positioned(
-            bottom: 7.h,
-            left: 15,
-            right: 15,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+            ShaderScreen(),
+            Positioned(
+              top: 400.h,
+              left: 15,
+              right: 15,
+              child: Stack(children: [
+                Positioned(
+                  top: 5,
+                  left: 5,
+                  child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors
+                            .blackColor2, // Outer circle color (padding color)
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(65, 4, 8, 4),
+                        child: Text(
+                          "Angelina, 28",
+                          style: AppStyles.textStyle12.copyWith(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.secondaryTextColor),
+                        ),
+                      )),
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(AppStrings.pickYourOption,
-                        style: AppStyles.textStyle12.copyWith(
-                            color: AppColors.lightTextColor,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400)),
-                    Text(AppStrings.seeWhohasASimilarMind,
-                        style: AppStyles.textStyle12.copyWith(
-                            color: AppColors.lightTextColor,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400))
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors
+                            .blackColor2, // Outer circle color (padding color)
+                      ),
+                      padding: EdgeInsets.all(5), // Padding around the avatar
+                      child: CircleAvatar(
+                          radius: 25, // Inner circle radius
+                          backgroundImage: AssetImage(AppAssets.profile)),
+                    ),
+                    SizedBox(
+                      height: 20,
+                      // width: double.infinity,
+                    )
                   ],
                 ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 6),
-                      child: SvgImage(
-                        image: AppAssets.micButton,
+                Positioned(
+                  top: 29,
+                  left: 69,
+                  right: 0,
+                  child: Text(
+                    AppStrings.whatIsYourFavTime,
+                    style: AppStyles.textStyle12.copyWith(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.secondaryTextColor),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 78, 0, 11),
+                  child: Column(
+                    children: [
+                      Text(
+                        AppStrings.mineIsDefinitelyThePeace,
+                        style: AppStyles.textStyle12.copyWith(
+                            fontSize: 14,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.secondaryTextColor),
                       ),
-                    ),
-                    SvgImage(
-                      image: AppAssets.nextButton,
-                    ),
-                  ],
+                      SizedBox(
+                        height: 300,
+                        width: double.infinity,
+                        child: GridView.builder(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 12,
+                                    mainAxisSpacing: 12,
+                                    childAspectRatio: 2),
+                            itemCount: AppConstants.mcqSelectionList.length,
+                            padding: EdgeInsets.only(top: 14),
+                            // shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  context
+                                      .read<McqSelectionCubit>()
+                                      .selectIcon(index);
+                                },
+                                child: MCQWidget(
+                                  text: AppConstants.mcqSelectionList[index],
+                                  mcq: AppConstants.mcqList[index],
+                                  isSelected: context
+                                          .watch<McqSelectionCubit>()
+                                          .state ==
+                                      index,
+                                ),
+                              );
+                            }),
+                      ),
+                    ],
+                  ),
                 )
-              ],
+              ]),
             ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: BottomAppBar(
-        height: 45.h,
-        color: AppColors.blackColor1,
-        shape: CircularNotchedRectangle(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: List.generate(4, (index) {
-            return GestureDetector(
-              onTap: () {
-                context.read<IconSelectionCubit>().selectIcon(index);
-              },
-              child: BottomIcons(
-                image: getIconImage(index),
-                isSelected: context.watch<IconSelectionCubit>().state == index,
-                index: index,
+            Positioned(
+              bottom: 7.h,
+              left: 15,
+              right: 15,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(AppStrings.pickYourOption,
+                          style: AppStyles.textStyle12.copyWith(
+                              color: AppColors.lightTextColor,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400)),
+                      Text(AppStrings.seeWhohasASimilarMind,
+                          style: AppStyles.textStyle12.copyWith(
+                              color: AppColors.lightTextColor,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400))
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 6),
+                        child: SvgImage(
+                          image: AppAssets.micButton,
+                        ),
+                      ),
+                      SvgImage(
+                        image: AppAssets.nextButton,
+                      ),
+                    ],
+                  )
+                ],
               ),
-            );
-          }),
+            ),
+          ],
+        ),
+        bottomNavigationBar: BottomAppBar(
+          height: 45.h,
+          color: AppColors.blackColor1,
+          shape: CircularNotchedRectangle(),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: List.generate(4, (index) {
+              return GestureDetector(
+                onTap: () {
+                  context.read<IconSelectionCubit>().selectIcon(index);
+                },
+                child: BottomIcons(
+                  image: getIconImage(index),
+                  isSelected:
+                      context.watch<IconSelectionCubit>().state == index,
+                  index: index,
+                ),
+              );
+            }),
+          ),
         ),
       ),
     );
@@ -137,6 +234,67 @@ class HomePage extends StatelessWidget {
       default:
         return AppAssets.user;
     }
+  }
+}
+
+class MCQWidget extends StatelessWidget {
+  final String text;
+  final String mcq;
+  final bool isSelected;
+  const MCQWidget({
+    super.key,
+    required this.text,
+    required this.mcq,
+    required this.isSelected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        padding: EdgeInsets.symmetric(vertical: 13.5, horizontal: 10),
+        decoration: BoxDecoration(
+            color: AppColors.blackColor3,
+            border: Border.all(
+                width: 2,
+                color: isSelected
+                    ? AppColors.primaryColor
+                    : AppColors.blackColor3),
+            borderRadius: BorderRadius.circular(12)),
+        child: Row(
+          children: [
+            Container(
+              padding: EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color:
+                      isSelected ? AppColors.primaryColor : Colors.transparent,
+                  border: Border.all(
+                      color: isSelected
+                          ? AppColors.primaryColor
+                          : AppColors.textColor)),
+              child: Text(
+                mcq,
+                style: AppStyles.textStyle12.copyWith(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.textColor),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: Text(
+                  text,
+                  maxLines: 2,
+                  style: AppStyles.textStyle12.copyWith(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.textColor),
+                ),
+              ),
+            ),
+          ],
+        ));
   }
 }
 

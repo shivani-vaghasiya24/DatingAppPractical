@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:front_end_task_practical/utils/app_assets.dart';
@@ -37,7 +39,9 @@ class HeaderWidget extends StatelessWidget {
                 ],
               ),
             ),
-            SvgImage(image: AppAssets.dropDownArrow)
+            SvgImage(
+              image: AppAssets.dropDownArrow,
+            ),
           ],
         ),
         Row(
